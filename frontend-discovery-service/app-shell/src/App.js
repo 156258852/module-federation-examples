@@ -2,6 +2,7 @@ import React from 'react';
 import { HashRouter, Route, Switch, Link, useLocation } from 'react-router-dom';
 import { MicroApp } from './components/MicroApp';
 import { MicroAppContainer } from './components/MicroAppContainer';
+import GlobalConflictMonitor from './components/GlobalConflictMonitor';
 
 import { Button } from 'my_project_product_1_0_0/share-com'
 
@@ -20,6 +21,27 @@ const HomePage = () => (
       <h1>欢迎使用微前端应用</h1>
       <p className="subtitle">这是一个基于 Module Federation 的微前端应用示例</p>
       <p className="description">请选择要访问的应用，体验微前端架构的强大功能</p>
+
+      {/* JS隔离问题演示警告 */}
+      <div style={{
+        backgroundColor: '#fff3cd',
+        border: '1px solid #ffeaa7',
+        borderRadius: '8px',
+        padding: '15px',
+        margin: '20px 0',
+        color: '#856404'
+      }}>
+        <h3 style={{ margin: '0 0 10px 0', color: '#d63031' }}>⚠️ JS隔离问题演示</h3>
+        <p style={{ margin: '5px 0' }}>本项目<strong>没有实现JS隔离</strong>，以下问题将在子应用间发生：</p>
+        <ul style={{ margin: '10px 0', paddingLeft: '20px' }}>
+          <li>🔥 全局变量污染和覆盖</li>
+          <li>🔥 事件监听器冲突</li>
+          <li>🔥 CSS样式互相干扰</li>
+          <li>🔥 第三方库版本冲突</li>
+          <li>🔥 DOM操作相互影响</li>
+        </ul>
+        <p style={{ margin: '5px 0', fontWeight: 'bold' }}>建议：依次访问 Catalog → Product 应用，观察控制台输出和页面变化</p>
+      </div>
     </div>
     <div className="home-page__grid">
       <Link to="/catalog" className="home-page__card">
@@ -28,7 +50,7 @@ const HomePage = () => (
         <p className="home-page__card-description">产品目录管理系统，提供商品分类和展示功能</p>
         <div className="home-page__card-status">
           <span className="status-dot"></span>
-          <span>运行中</span>
+          <span>运行中 - 会设置全局变量</span>
         </div>
       </Link>
       <Link to="/product" className="home-page__card">
@@ -37,7 +59,7 @@ const HomePage = () => (
         <p className="home-page__card-description">产品详情管理系统，提供商品信息维护功能</p>
         <div className="home-page__card-status">
           <span className="status-dot"></span>
-          <span>运行中</span>
+          <span>运行中 - 会覆盖全局变量</span>
         </div>
       </Link>
     </div>
@@ -150,6 +172,7 @@ function App() {
         <Button />
         <div className="app-shell__container">
           <Navigation />
+          <GlobalConflictMonitor />
           <div className="app-shell__content">
             <Switch>
               <Route exact path="/" component={HomePage} />
