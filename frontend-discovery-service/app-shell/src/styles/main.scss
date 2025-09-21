@@ -1,0 +1,25 @@
+// App Shell 主样式文件
+// 统一导入所有样式模块
+
+// 基础层 - 变量和混合器
+@use './abstracts/variables' as *;
+@use './abstracts/mixins' as *;
+
+// 基础层 - 重置和基础样式
+@use './base/reset';
+@use './base/typography';
+
+// 布局层
+@use './layout/navigation';
+@use './layout/container';
+
+// 组件层
+@use './components/micro-app';
+@use './components/loader';
+
+// 页面层
+@use './pages/home';
+@use './pages/app-pages';
+
+// 工具类
+@use './utilities/helpers';

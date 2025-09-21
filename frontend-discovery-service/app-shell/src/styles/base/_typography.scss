@@ -1,0 +1,241 @@
+// 基础字体样式
+@use '../abstracts/variables' as *;
+
+// 标题样式定义
+h1 {
+  font-size: $font-size-xxxl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  margin-bottom: $spacing-lg;
+  color: $text-primary;
+}
+
+h2 {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  margin-bottom: $spacing-md;
+  color: $text-primary;
+}
+
+h3 {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  margin-bottom: $spacing-md;
+  color: $text-primary;
+}
+
+h4 {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-tight;
+  margin-bottom: $spacing-sm;
+  color: $text-primary;
+}
+
+h5 {
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-tight;
+  margin-bottom: $spacing-sm;
+  color: $text-primary;
+}
+
+h6 {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-tight;
+  margin-bottom: $spacing-sm;
+  color: $text-secondary;
+}
+
+// 正文样式
+p {
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  margin-bottom: $spacing-md;
+  color: $text-primary;
+  
+  &.lead {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-light;
+    line-height: $line-height-loose;
+  }
+  
+  &.small {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+  }
+}
+
+// 强调文本
+strong,
+b {
+  font-weight: $font-weight-bold;
+}
+
+em,
+i {
+  font-style: italic;
+}
+
+// 小号文本
+small {
+  font-size: $font-size-sm;
+  color: $text-secondary;
+}
+
+// 代码样式
+code {
+  font-family: $font-family-mono;
+  font-size: 0.9em;
+  color: $error-color;
+  background-color: $bg-secondary;
+  padding: 0.125rem 0.25rem;
+  border-radius: $border-radius-sm;
+}
+
+pre {
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
+  color: $text-primary;
+  background-color: $bg-secondary;
+  padding: $spacing-md;
+  border-radius: $border-radius-base;
+  overflow-x: auto;
+  line-height: $line-height-tight;
+  
+  code {
+    background: none;
+    padding: 0;
+    color: inherit;
+  }
+}
+
+// 引用样式
+blockquote {
+  font-size: $font-size-lg;
+  font-style: italic;
+  color: $text-secondary;
+  border-left: 4px solid $primary-color;
+  padding-left: $spacing-md;
+  margin: $spacing-lg 0;
+  
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// 列表样式
+ul {
+  list-style: none;
+  
+  &.styled {
+    list-style: disc;
+    padding-left: $spacing-lg;
+    
+    li {
+      margin-bottom: $spacing-xs;
+    }
+  }
+}
+
+ol {
+  list-style: none;
+  
+  &.styled {
+    list-style: decimal;
+    padding-left: $spacing-lg;
+    
+    li {
+      margin-bottom: $spacing-xs;
+    }
+  }
+}
+
+// 链接样式
+a {
+  color: $primary-color;
+  text-decoration: none;
+  transition: color $transition-fast;
+  
+  &:hover {
+    color: #005cbf;
+    text-decoration: underline;
+  }
+  
+  &:focus {
+    outline: 2px solid $primary-color;
+    outline-offset: 2px;
+    text-decoration: underline;
+  }
+  
+  &:active {
+    color: #004494;
+  }
+}
+
+// 分割线
+hr {
+  border: 0;
+  border-top: 1px solid $border-color;
+  margin: $spacing-xl 0;
+}
+
+// 文本工具类
+.text-primary {
+  color: $text-primary;
+}
+
+.text-secondary {
+  color: $text-secondary;
+}
+
+.text-muted {
+  color: $text-muted;
+}
+
+.text-success {
+  color: $success-color;
+}
+
+.text-warning {
+  color: $warning-color;
+}
+
+.text-error {
+  color: $error-color;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.font-weight-light {
+  font-weight: $font-weight-light;
+}
+
+.font-weight-normal {
+  font-weight: $font-weight-normal;
+}
+
+.font-weight-medium {
+  font-weight: $font-weight-medium;
+}
+
+.font-weight-semibold {
+  font-weight: $font-weight-semibold;
+}
+
+.font-weight-bold {
+  font-weight: $font-weight-bold;
+}

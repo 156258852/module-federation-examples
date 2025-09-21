@@ -1,0 +1,454 @@
+// 应用页面样式（Catalog 和 Product 页面）
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.app-page {
+  // 应用页面容器
+  &__container {
+    min-height: calc(100vh - #{$navbar-height});
+    display: flex;
+    flex-direction: column;
+  }
+  
+  // 页面头部
+  &__header {
+    background-color: $bg-secondary;
+    border-bottom: 1px solid $border-light;
+    padding: $spacing-lg 0;
+    margin-bottom: $spacing-xl;
+    
+    &-content {
+      max-width: $container-max-width;
+      margin: 0 auto;
+      padding: 0 $container-padding;
+    }
+    
+    &-title {
+      font-size: $font-size-xxl;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      margin-bottom: $spacing-sm;
+      display: flex;
+      align-items: center;
+      gap: $spacing-md;
+      
+      &-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: $border-radius-base;
+        background-color: $primary-color;
+        @include center-align;
+        color: $text-light;
+        font-size: 16px;
+      }
+    }
+    
+    &-description {
+      font-size: $font-size-base;
+      color: $text-secondary;
+      margin-bottom: $spacing-md;
+      max-width: 600px;
+    }
+    
+    &-meta {
+      display: flex;
+      align-items: center;
+      gap: $spacing-lg;
+      font-size: $font-size-sm;
+      color: $text-muted;
+      
+      @include respond-to('sm') {
+        gap: $spacing-xl;
+      }
+      
+      &-item {
+        display: flex;
+        align-items: center;
+        gap: $spacing-xs;
+        
+        .icon {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+    
+    &-actions {
+      display: flex;
+      gap: $spacing-md;
+      margin-top: $spacing-md;
+      
+      @include respond-to('sm') {
+        margin-top: 0;
+        margin-left: auto;
+      }
+    }
+    
+    &-button {
+      @include button-base;
+      font-size: $font-size-sm;
+      padding: $spacing-xs $spacing-md;
+      
+      &--primary {
+        @include button-variant($primary-color);
+      }
+      
+      &--secondary {
+        @include button-variant($bg-primary, $border-color, $text-primary);
+      }
+    }
+  }
+  
+  // 页面主内容
+  &__main {
+    flex: 1;
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: 0 $container-padding;
+    width: 100%;
+  }
+  
+  // 微应用加载状态
+  &__loading {
+    @include center-align;
+    flex-direction: column;
+    gap: $spacing-lg;
+    min-height: 400px;
+    
+    &-spinner {
+      @include loading-spinner(48px, $primary-color);
+    }
+    
+    &-text {
+      font-size: $font-size-lg;
+      font-weight: $font-weight-medium;
+      color: $text-primary;
+    }
+    
+    &-subtext {
+      font-size: $font-size-base;
+      color: $text-secondary;
+      text-align: center;
+      max-width: 400px;
+    }
+    
+    &-progress {
+      width: 100%;
+      max-width: 300px;
+      margin-top: $spacing-md;
+      
+      &-track {
+        width: 100%;
+        height: 4px;
+        background-color: $bg-secondary;
+        border-radius: $border-radius-pill;
+        overflow: hidden;
+      }
+      
+      &-bar {
+        height: 100%;
+        background-color: $primary-color;
+        border-radius: $border-radius-pill;
+        width: 30%;
+        animation: loading-progress 2s linear infinite;
+      }
+    }
+  }
+  
+  // 错误状态
+  &__error {
+    @include center-align;
+    flex-direction: column;
+    gap: $spacing-lg;
+    min-height: 400px;
+    text-align: center;
+    padding: $spacing-xl;
+    
+    &-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: rgba($error-color, 0.1);
+      @include center-align;
+      color: $error-color;
+      font-size: 32px;
+      margin-bottom: $spacing-md;
+    }
+    
+    &-title {
+      font-size: $font-size-xl;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      margin-bottom: $spacing-sm;
+    }
+    
+    &-message {
+      font-size: $font-size-base;
+      color: $text-secondary;
+      margin-bottom: $spacing-lg;
+      max-width: 500px;
+      line-height: $line-height-base;
+    }
+    
+    &-details {
+      background-color: $bg-secondary;
+      border-radius: $border-radius-base;
+      padding: $spacing-md;
+      margin-bottom: $spacing-lg;
+      max-width: 600px;
+      
+      &-toggle {
+        background: none;
+        border: none;
+        color: $primary-color;
+        font-size: $font-size-sm;
+        cursor: pointer;
+        text-decoration: underline;
+        
+        &:hover {
+          color: #005cbf;
+        }
+      }
+      
+      &-content {
+        margin-top: $spacing-sm;
+        font-family: $font-family-mono;
+        font-size: $font-size-xs;
+        color: $text-secondary;
+        white-space: pre-wrap;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+    }
+    
+    &-actions {
+      display: flex;
+      gap: $spacing-md;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    &-button {
+      @include button-base;
+      
+      &--primary {
+        @include button-variant($primary-color);
+      }
+      
+      &--secondary {
+        @include button-variant($bg-primary, $border-color, $text-primary);
+      }
+    }
+  }
+  
+  // 网络离线状态
+  &__offline {
+    background-color: $warning-color;
+    color: $text-primary;
+    padding: $spacing-sm;
+    text-align: center;
+    font-size: $font-size-sm;
+    
+    &-icon {
+      margin-right: $spacing-xs;
+    }
+  }
+  
+  // 微应用容器
+  &__micro-app {
+    min-height: 400px;
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    background-color: $bg-primary;
+    
+    // 为微应用提供隔离环境
+    isolation: isolate;
+    contain: layout style;
+    
+    // 确保微应用可以正常滚动
+    & > * {
+      max-width: 100%;
+    }
+  }
+  
+  // 页面底部操作区
+  &__footer {
+    margin-top: $spacing-xxl;
+    padding-top: $spacing-xl;
+    border-top: 1px solid $border-light;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    &-info {
+      font-size: $font-size-sm;
+      color: $text-muted;
+    }
+    
+    &-actions {
+      display: flex;
+      gap: $spacing-md;
+    }
+    
+    &-button {
+      @include button-base;
+      font-size: $font-size-sm;
+      padding: $spacing-xs $spacing-md;
+      
+      &--secondary {
+        @include button-variant($bg-primary, $border-color, $text-primary);
+      }
+    }
+  }
+}
+
+// 面包屑导航
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  margin-bottom: $spacing-md;
+  font-size: $font-size-sm;
+  color: $text-muted;
+  
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    
+    a {
+      color: $text-muted;
+      text-decoration: none;
+      
+      &:hover {
+        color: $primary-color;
+      }
+    }
+    
+    &--current {
+      color: $text-primary;
+      font-weight: $font-weight-medium;
+    }
+  }
+  
+  &__separator {
+    color: $text-muted;
+    font-size: $font-size-xs;
+  }
+}
+
+// 状态指示器
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: $font-size-sm;
+  
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    
+    &--loading {
+      background-color: $warning-color;
+      animation: pulse 2s infinite;
+    }
+    
+    &--success {
+      background-color: $success-color;
+    }
+    
+    &--error {
+      background-color: $error-color;
+    }
+    
+    &--offline {
+      background-color: $secondary-color;
+    }
+  }
+  
+  &__text {
+    color: $text-secondary;
+  }
+}
+
+// 动画
+@keyframes loading-progress {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(333%);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// 响应式调整
+@media (max-width: #{$breakpoint-md - 1px}) {
+  .app-page {
+    &__header {
+      padding: $spacing-md 0;
+      margin-bottom: $spacing-lg;
+      
+      &-title {
+        font-size: $font-size-xl;
+        
+        &-icon {
+          width: 24px;
+          height: 24px;
+          font-size: 12px;
+        }
+      }
+      
+      &-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: $spacing-sm;
+      }
+      
+      &-actions {
+        margin-top: $spacing-md;
+        margin-left: 0;
+      }
+    }
+    
+    &__loading,
+    &__error {
+      min-height: 300px;
+      padding: $spacing-lg;
+      
+      &-spinner {
+        @include loading-spinner(32px, $primary-color);
+      }
+      
+      &-text {
+        font-size: $font-size-base;
+      }
+    }
+    
+    &__footer {
+      flex-direction: column;
+      gap: $spacing-md;
+      text-align: center;
+    }
+  }
+  
+  .breadcrumb {
+    &__item {
+      &:not(:last-child) {
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+}

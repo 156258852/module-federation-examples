@@ -81,6 +81,7 @@ function createDevServerConfig(port) {
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
       'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
     },
+    historyApiFallback: true, // 支持 React Router 的客户端路由
     port,
     hot: true,
     liveReload: false,

@@ -11,7 +11,7 @@ module.exports = {
     static: path.join(__dirname, 'dist'),
     port: 3003,
     allowedHosts: 'auto',
-    https: true,
+  
   },
   output: {
     publicPath: 'auto',
@@ -34,6 +34,7 @@ module.exports = {
       filename: 'remoteEntry.js',
       exposes: {
         './my-project/catalog': './src/Catalog',
+        './utils/catalogUtils': './src/utils/catalogUtils',
       },
       shared: {
         'react-dom': {

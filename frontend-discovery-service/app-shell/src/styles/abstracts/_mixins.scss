@@ -1,0 +1,171 @@
+// 混合器 - 响应式断点
+@use 'variables' as *;
+
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == 'sm' {
+    @media (min-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == 'md' {
+    @media (min-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == 'lg' {
+    @media (min-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $breakpoint == 'xl' {
+    @media (min-width: $breakpoint-xl) {
+      @content;
+    }
+  } @else if $breakpoint == 'xxl' {
+    @media (min-width: $breakpoint-xxl) {
+      @content;
+    }
+  }
+}
+
+// 混合器 - 清除浮动
+@mixin clearfix {
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+// 混合器 - 视觉隐藏（可访问性）
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// 混合器 - 文本截断
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// 混合器 - 多行文本截断
+@mixin text-truncate-multiline($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// 混合器 - 居中对齐
+@mixin center-align {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// 混合器 - 绝对居中
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// 混合器 - 按钮基础样式
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid transparent;
+  border-radius: $border-radius-base;
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-tight;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all $transition-fast;
+  user-select: none;
+  
+  &:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px rgba($primary-color, 0.25);
+  }
+  
+  &:disabled,
+  &.disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+}
+
+// 混合器 - 按钮变体
+@mixin button-variant($bg-color, $border-color: $bg-color, $text-color: $text-light) {
+  background-color: $bg-color;
+  border-color: $border-color;
+  color: $text-color;
+  
+  &:hover {
+    background-color: rgba($bg-color, 0.9);
+    border-color: rgba($border-color, 0.9);
+    color: $text-color;
+  }
+  
+  &:active {
+    background-color: rgba($bg-color, 0.85);
+    border-color: rgba($border-color, 0.85);
+    color: $text-color;
+  }
+}
+
+// 混合器 - 卡片样式
+@mixin card {
+  background-color: $bg-primary;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-sm;
+  overflow: hidden;
+}
+
+// 混合器 - 加载动画
+@mixin loading-spinner($size: 20px, $color: $primary-color) {
+  width: $size;
+  height: $size;
+  border: 2px solid rgba($color, 0.3);
+  border-top: 2px solid $color;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+// 关键帧动画 - 旋转
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// 混合器 - 渐变背景
+@mixin gradient-background($start-color, $end-color, $direction: to bottom) {
+  background: linear-gradient($direction, $start-color, $end-color);
+}
+
+// 混合器 - 阴影悬停效果
+@mixin hover-lift {
+  transition: transform $transition-fast, box-shadow $transition-fast;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+}

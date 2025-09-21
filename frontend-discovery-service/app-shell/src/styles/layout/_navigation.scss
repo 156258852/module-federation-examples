@@ -1,0 +1,187 @@
+// 导航组件样式
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.app-shell {
+  &__navigation {
+    height: $navbar-height;
+    background-color: $bg-primary;
+    border-bottom: 1px solid $border-color;
+    box-shadow: $shadow-sm;
+    position: sticky;
+    top: 0;
+    z-index: $z-index-sticky;
+    
+    // 导航容器
+    &-container {
+      max-width: $container-max-width;
+      margin: 0 auto;
+      padding: 0 $container-padding;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    // 品牌标识
+    &-brand {
+      display: flex;
+      align-items: center;
+      font-size: $font-size-lg;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      text-decoration: none;
+      
+      &:hover {
+        color: $primary-color;
+        text-decoration: none;
+      }
+    }
+    
+    // 导航菜单
+    &-menu {
+      display: flex;
+      align-items: center;
+      gap: $spacing-lg;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      
+      @include respond-to('md') {
+        gap: $spacing-xl;
+      }
+    }
+    
+    // 导航链接
+    &-link {
+      display: flex;
+      align-items: center;
+      padding: $spacing-sm $spacing-md;
+      color: $text-primary;
+      text-decoration: none;
+      font-weight: $font-weight-medium;
+      border-radius: $border-radius-base;
+      transition: all $transition-fast;
+      position: relative;
+      
+      &:hover {
+        color: $primary-color;
+        background-color: rgba($primary-color, 0.1);
+        text-decoration: none;
+      }
+      
+      &:focus {
+        outline: 2px solid $primary-color;
+        outline-offset: 2px;
+      }
+      
+      // 当前页面状态
+      &--active {
+        color: $primary-color;
+        font-weight: $font-weight-semibold;
+        background-color: rgba($primary-color, 0.1);
+        
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -1px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 80%;
+          height: 2px;
+          background-color: $primary-color;
+          border-radius: $border-radius-pill;
+        }
+      }
+    }
+    
+    // 移动端菜单切换按钮
+    &-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 24px;
+      height: 18px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      
+      @media (max-width: #{$breakpoint-md - 1px}) {
+        display: flex;
+      }
+      
+      span {
+        display: block;
+        width: 100%;
+        height: 2px;
+        background-color: $text-primary;
+        border-radius: $border-radius-pill;
+        transition: all $transition-fast;
+        
+        &:nth-child(1) {
+          transform-origin: top left;
+        }
+        
+        &:nth-child(3) {
+          transform-origin: bottom left;
+        }
+      }
+      
+      &--active {
+        span {
+          &:nth-child(1) {
+            transform: rotate(45deg) translate(3px, 0);
+          }
+          
+          &:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-10px);
+          }
+          
+          &:nth-child(3) {
+            transform: rotate(-45deg) translate(3px, 0);
+          }
+        }
+      }
+    }
+    
+    // 移动端菜单展开状态
+    &-menu {
+      @media (max-width: #{$breakpoint-md - 1px}) {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: $bg-primary;
+        border-bottom: 1px solid $border-color;
+        box-shadow: $shadow-base;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: $spacing-md 0;
+        display: none;
+        
+        &--open {
+          display: flex;
+        }
+      }
+    }
+    
+    &-link {
+      @media (max-width: #{$breakpoint-md - 1px}) {
+        padding: $spacing-md $container-padding;
+        border-radius: 0;
+        
+        &--active::after {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+// 导航工具类
+.navigation-spacer {
+  height: $navbar-height;
+}

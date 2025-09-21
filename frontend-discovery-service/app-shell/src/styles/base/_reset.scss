@@ -1,0 +1,172 @@
+// 重置样式 - 现代化CSS重置
+@use '../abstracts/variables' as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// 移除默认边距和内边距
+* {
+  margin: 0;
+  padding: 0;
+}
+
+// HTML和body基础设置
+html {
+  font-size: 16px;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  line-height: $line-height-base;
+  color: $text-primary;
+  background-color: $bg-primary;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// 文档结构元素
+main {
+  display: block;
+}
+
+// 标题元素重置
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  margin-bottom: $spacing-sm;
+}
+
+// 段落元素
+p {
+  margin-bottom: $spacing-md;
+}
+
+// 列表元素
+ul,
+ol {
+  list-style: none;
+}
+
+// 链接元素
+a {
+  color: $primary-color;
+  text-decoration: none;
+  transition: color $transition-fast;
+  
+  &:hover {
+    color: #005cbf;
+  }
+  
+  &:focus {
+    outline: 2px solid $primary-color;
+    outline-offset: 2px;
+  }
+}
+
+// 按钮和表单元素
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: $line-height-base;
+  margin: 0;
+}
+
+button,
+select {
+  text-transform: none;
+}
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+// 表格元素
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+// 媒体元素
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+// 代码元素
+code,
+kbd,
+samp,
+pre {
+  font-family: $font-family-mono;
+  font-size: 1em;
+}
+
+// 水平分割线
+hr {
+  height: 0;
+  color: inherit;
+  border-top: 1px solid $border-color;
+}
+
+// 隐藏元素
+[hidden] {
+  display: none;
+}
+
+// 焦点可见性
+:focus-visible {
+  outline: 2px solid $primary-color;
+  outline-offset: 2px;
+}
+
+// 减少动画偏好设置
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

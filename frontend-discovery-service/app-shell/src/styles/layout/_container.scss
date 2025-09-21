@@ -1,0 +1,350 @@
+// 容器和布局样式
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+@use 'sass:string';
+
+// 主容器
+.app-shell {
+  &__container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: $bg-primary;
+  }
+  
+  // 内容区域
+  &__content {
+    flex: 1;
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: $spacing-lg $container-padding;
+    width: 100%;
+    
+    @include respond-to('sm') {
+      padding: $spacing-xl $container-padding;
+    }
+  }
+  
+  // 页面标题区域
+  &__page-header {
+    margin-bottom: $spacing-xl;
+    padding-bottom: $spacing-lg;
+    border-bottom: 1px solid $border-light;
+    
+    h1 {
+      margin-bottom: $spacing-sm;
+      color: $text-primary;
+    }
+    
+    .breadcrumb {
+      margin-bottom: 0;
+    }
+  }
+  
+  // 页面主体
+  &__page-body {
+    margin-bottom: $spacing-xl;
+  }
+  
+  // 页面底部
+  &__page-footer {
+    margin-top: auto;
+    padding-top: $spacing-xl;
+    border-top: 1px solid $border-light;
+    text-align: center;
+    color: $text-secondary;
+    font-size: $font-size-sm;
+  }
+}
+
+// 网格系统
+.grid {
+  display: grid;
+  gap: $spacing-lg;
+  
+  &--1-col {
+    grid-template-columns: 1fr;
+  }
+  
+  &--2-col {
+    grid-template-columns: 1fr;
+    
+    @include respond-to('md') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  &--3-col {
+    grid-template-columns: 1fr;
+    
+    @include respond-to('md') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include respond-to('lg') {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  &--4-col {
+    grid-template-columns: repeat(2, 1fr);
+    
+    @include respond-to('md') {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    @include respond-to('lg') {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  &--auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  
+  &--auto-fill {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+// 弹性布局工具类
+.flex {
+  display: flex;
+  
+  &--column {
+    flex-direction: column;
+  }
+  
+  &--row {
+    flex-direction: row;
+  }
+  
+  &--wrap {
+    flex-wrap: wrap;
+  }
+  
+  &--nowrap {
+    flex-wrap: nowrap;
+  }
+  
+  &--justify-start {
+    justify-content: flex-start;
+  }
+  
+  &--justify-center {
+    justify-content: center;
+  }
+  
+  &--justify-end {
+    justify-content: flex-end;
+  }
+  
+  &--justify-between {
+    justify-content: space-between;
+  }
+  
+  &--justify-around {
+    justify-content: space-around;
+  }
+  
+  &--justify-evenly {
+    justify-content: space-evenly;
+  }
+  
+  &--align-start {
+    align-items: flex-start;
+  }
+  
+  &--align-center {
+    align-items: center;
+  }
+  
+  &--align-end {
+    align-items: flex-end;
+  }
+  
+  &--align-stretch {
+    align-items: stretch;
+  }
+  
+  &--align-baseline {
+    align-items: baseline;
+  }
+}
+
+// 间距工具类
+.gap {
+  &--xs {
+    gap: $spacing-xs;
+  }
+  
+  &--sm {
+    gap: $spacing-sm;
+  }
+  
+  &--md {
+    gap: $spacing-md;
+  }
+  
+  &--lg {
+    gap: $spacing-lg;
+  }
+  
+  &--xl {
+    gap: $spacing-xl;
+  }
+  
+  &--xxl {
+    gap: $spacing-xxl;
+  }
+}
+
+// 边距工具类
+@each $property in margin, padding {
+  @each $size, $value in (
+    'xs': $spacing-xs,
+    'sm': $spacing-sm,
+    'md': $spacing-md,
+    'lg': $spacing-lg,
+    'xl': $spacing-xl,
+    'xxl': $spacing-xxl,
+    'xxxl': $spacing-xxxl
+  ) {
+    .#{string.slice($property, 1, 1)}-#{$size} {
+      #{$property}: $value;
+    }
+    
+    .#{string.slice($property, 1, 1)}t-#{$size} {
+      #{$property}-top: $value;
+    }
+    
+    .#{string.slice($property, 1, 1)}r-#{$size} {
+      #{$property}-right: $value;
+    }
+    
+    .#{string.slice($property, 1, 1)}b-#{$size} {
+      #{$property}-bottom: $value;
+    }
+    
+    .#{string.slice($property, 1, 1)}l-#{$size} {
+      #{$property}-left: $value;
+    }
+    
+    .#{string.slice($property, 1, 1)}x-#{$size} {
+      #{$property}-left: $value;
+      #{$property}-right: $value;
+    }
+    
+    .#{string.slice($property, 1, 1)}y-#{$size} {
+      #{$property}-top: $value;
+      #{$property}-bottom: $value;
+    }
+  }
+}
+
+// 宽度工具类
+.w-full {
+  width: 100%;
+}
+
+.w-auto {
+  width: auto;
+}
+
+.w-fit {
+  width: fit-content;
+}
+
+.w-screen {
+  width: 100vw;
+}
+
+// 高度工具类
+.h-full {
+  height: 100%;
+}
+
+.h-auto {
+  height: auto;
+}
+
+.h-fit {
+  height: fit-content;
+}
+
+.h-screen {
+  height: 100vh;
+}
+
+// 最大宽度工具类
+.max-w-container {
+  max-width: $container-max-width;
+}
+
+.max-w-full {
+  max-width: 100%;
+}
+
+.max-w-none {
+  max-width: none;
+}
+
+// 显示工具类
+.d-block {
+  display: block;
+}
+
+.d-inline {
+  display: inline;
+}
+
+.d-inline-block {
+  display: inline-block;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.d-inline-flex {
+  display: inline-flex;
+}
+
+.d-grid {
+  display: grid;
+}
+
+.d-none {
+  display: none;
+}
+
+// 响应式显示工具类
+@include respond-to('sm') {
+  .d-sm-block {
+    display: block;
+  }
+  
+  .d-sm-none {
+    display: none;
+  }
+}
+
+@include respond-to('md') {
+  .d-md-block {
+    display: block;
+  }
+  
+  .d-md-none {
+    display: none;
+  }
+}
+
+@include respond-to('lg') {
+  .d-lg-block {
+    display: block;
+  }
+  
+  .d-lg-none {
+    display: none;
+  }
+}

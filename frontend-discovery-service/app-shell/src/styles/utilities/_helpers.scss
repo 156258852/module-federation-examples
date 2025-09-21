@@ -1,0 +1,660 @@
+// 工具类样式
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// 显示和隐藏
+.show {
+  display: block !important;
+}
+
+.hide {
+  display: none !important;
+}
+
+.invisible {
+  visibility: hidden !important;
+}
+
+.visible {
+  visibility: visible !important;
+}
+
+// 透明度
+.opacity-0 {
+  opacity: 0 !important;
+}
+
+.opacity-25 {
+  opacity: 0.25 !important;
+}
+
+.opacity-50 {
+  opacity: 0.5 !important;
+}
+
+.opacity-75 {
+  opacity: 0.75 !important;
+}
+
+.opacity-100 {
+  opacity: 1 !important;
+}
+
+// 位置
+.position-static {
+  position: static !important;
+}
+
+.position-relative {
+  position: relative !important;
+}
+
+.position-absolute {
+  position: absolute !important;
+}
+
+.position-fixed {
+  position: fixed !important;
+}
+
+.position-sticky {
+  position: sticky !important;
+}
+
+// 浮动
+.float-left {
+  float: left !important;
+}
+
+.float-right {
+  float: right !important;
+}
+
+.float-none {
+  float: none !important;
+}
+
+// 清除浮动
+.clearfix {
+  @include clearfix;
+}
+
+// 溢出处理
+.overflow-auto {
+  overflow: auto !important;
+}
+
+.overflow-hidden {
+  overflow: hidden !important;
+}
+
+.overflow-visible {
+  overflow: visible !important;
+}
+
+.overflow-scroll {
+  overflow: scroll !important;
+}
+
+.overflow-x-auto {
+  overflow-x: auto !important;
+}
+
+.overflow-x-hidden {
+  overflow-x: hidden !important;
+}
+
+.overflow-y-auto {
+  overflow-y: auto !important;
+}
+
+.overflow-y-hidden {
+  overflow-y: hidden !important;
+}
+
+// 文本工具类
+.text-truncate {
+  @include text-truncate;
+}
+
+.text-break {
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+}
+
+.text-nowrap {
+  white-space: nowrap !important;
+}
+
+.text-wrap {
+  white-space: normal !important;
+}
+
+.text-uppercase {
+  text-transform: uppercase !important;
+}
+
+.text-lowercase {
+  text-transform: lowercase !important;
+}
+
+.text-capitalize {
+  text-transform: capitalize !important;
+}
+
+.text-decoration-none {
+  text-decoration: none !important;
+}
+
+.text-decoration-underline {
+  text-decoration: underline !important;
+}
+
+.text-decoration-line-through {
+  text-decoration: line-through !important;
+}
+
+// 用户交互
+.user-select-all {
+  user-select: all !important;
+}
+
+.user-select-auto {
+  user-select: auto !important;
+}
+
+.user-select-none {
+  user-select: none !important;
+}
+
+.pointer-events-none {
+  pointer-events: none !important;
+}
+
+.pointer-events-auto {
+  pointer-events: auto !important;
+}
+
+// 光标样式
+.cursor-auto {
+  cursor: auto !important;
+}
+
+.cursor-default {
+  cursor: default !important;
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.cursor-wait {
+  cursor: wait !important;
+}
+
+.cursor-text {
+  cursor: text !important;
+}
+
+.cursor-move {
+  cursor: move !important;
+}
+
+.cursor-help {
+  cursor: help !important;
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed !important;
+}
+
+// 边框工具类
+.border {
+  border: 1px solid $border-color !important;
+}
+
+.border-0 {
+  border: 0 !important;
+}
+
+.border-top {
+  border-top: 1px solid $border-color !important;
+}
+
+.border-top-0 {
+  border-top: 0 !important;
+}
+
+.border-right {
+  border-right: 1px solid $border-color !important;
+}
+
+.border-right-0 {
+  border-right: 0 !important;
+}
+
+.border-bottom {
+  border-bottom: 1px solid $border-color !important;
+}
+
+.border-bottom-0 {
+  border-bottom: 0 !important;
+}
+
+.border-left {
+  border-left: 1px solid $border-color !important;
+}
+
+.border-left-0 {
+  border-left: 0 !important;
+}
+
+// 边框颜色
+.border-primary {
+  border-color: $primary-color !important;
+}
+
+.border-secondary {
+  border-color: $secondary-color !important;
+}
+
+.border-success {
+  border-color: $success-color !important;
+}
+
+.border-warning {
+  border-color: $warning-color !important;
+}
+
+.border-error {
+  border-color: $error-color !important;
+}
+
+.border-light {
+  border-color: $border-light !important;
+}
+
+.border-dark {
+  border-color: $border-dark !important;
+}
+
+// 圆角
+.rounded {
+  border-radius: $border-radius-base !important;
+}
+
+.rounded-0 {
+  border-radius: 0 !important;
+}
+
+.rounded-sm {
+  border-radius: $border-radius-sm !important;
+}
+
+.rounded-lg {
+  border-radius: $border-radius-lg !important;
+}
+
+.rounded-xl {
+  border-radius: $border-radius-xl !important;
+}
+
+.rounded-circle {
+  border-radius: 50% !important;
+}
+
+.rounded-pill {
+  border-radius: $border-radius-pill !important;
+}
+
+.rounded-top {
+  border-top-left-radius: $border-radius-base !important;
+  border-top-right-radius: $border-radius-base !important;
+}
+
+.rounded-bottom {
+  border-bottom-left-radius: $border-radius-base !important;
+  border-bottom-right-radius: $border-radius-base !important;
+}
+
+.rounded-left {
+  border-top-left-radius: $border-radius-base !important;
+  border-bottom-left-radius: $border-radius-base !important;
+}
+
+.rounded-right {
+  border-top-right-radius: $border-radius-base !important;
+  border-bottom-right-radius: $border-radius-base !important;
+}
+
+// 阴影
+.shadow {
+  box-shadow: $shadow-base !important;
+}
+
+.shadow-none {
+  box-shadow: none !important;
+}
+
+.shadow-sm {
+  box-shadow: $shadow-sm !important;
+}
+
+.shadow-lg {
+  box-shadow: $shadow-lg !important;
+}
+
+.shadow-xl {
+  box-shadow: $shadow-xl !important;
+}
+
+// 背景色
+.bg-primary {
+  background-color: $bg-primary !important;
+}
+
+.bg-secondary {
+  background-color: $bg-secondary !important;
+}
+
+.bg-tertiary {
+  background-color: $bg-tertiary !important;
+}
+
+.bg-transparent {
+  background-color: transparent !important;
+}
+
+.bg-white {
+  background-color: #ffffff !important;
+}
+
+.bg-light {
+  background-color: $bg-secondary !important;
+}
+
+.bg-dark {
+  background-color: $text-primary !important;
+}
+
+// 文字颜色（已在typography中定义，这里补充）
+.text-white {
+  color: #ffffff !important;
+}
+
+.text-dark {
+  color: $text-primary !important;
+}
+
+.text-light {
+  color: $text-light !important;
+}
+
+// 层级
+.z-index-0 {
+  z-index: 0 !important;
+}
+
+.z-index-1 {
+  z-index: 1 !important;
+}
+
+.z-index-2 {
+  z-index: 2 !important;
+}
+
+.z-index-3 {
+  z-index: 3 !important;
+}
+
+.z-index-auto {
+  z-index: auto !important;
+}
+
+// 垂直对齐
+.align-baseline {
+  vertical-align: baseline !important;
+}
+
+.align-top {
+  vertical-align: top !important;
+}
+
+.align-middle {
+  vertical-align: middle !important;
+}
+
+.align-bottom {
+  vertical-align: bottom !important;
+}
+
+.align-text-bottom {
+  vertical-align: text-bottom !important;
+}
+
+.align-text-top {
+  vertical-align: text-top !important;
+}
+
+// 无障碍辅助
+.sr-only {
+  @include visually-hidden;
+}
+
+.sr-only-focusable {
+  @include visually-hidden;
+  
+  &:active,
+  &:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+}
+
+// 交互状态
+.disabled {
+  opacity: 0.65 !important;
+  pointer-events: none !important;
+  cursor: not-allowed !important;
+}
+
+.no-select {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+}
+
+// 动画相关
+.no-animation {
+  animation: none !important;
+  transition: none !important;
+}
+
+.fade-in {
+  animation: fade-in 0.3s ease-in-out;
+}
+
+.fade-out {
+  animation: fade-out 0.3s ease-in-out;
+}
+
+.slide-in-up {
+  animation: slide-in-up 0.3s ease-out;
+}
+
+.slide-in-down {
+  animation: slide-in-down 0.3s ease-out;
+}
+
+.slide-in-left {
+  animation: slide-in-left 0.3s ease-out;
+}
+
+.slide-in-right {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+// 动画关键帧
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-down {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+// 响应式工具类
+@each $breakpoint in ('sm', 'md', 'lg', 'xl') {
+  @include respond-to($breakpoint) {
+    .d-#{$breakpoint}-block {
+      display: block !important;
+    }
+    
+    .d-#{$breakpoint}-inline {
+      display: inline !important;
+    }
+    
+    .d-#{$breakpoint}-inline-block {
+      display: inline-block !important;
+    }
+    
+    .d-#{$breakpoint}-flex {
+      display: flex !important;
+    }
+    
+    .d-#{$breakpoint}-inline-flex {
+      display: inline-flex !important;
+    }
+    
+    .d-#{$breakpoint}-none {
+      display: none !important;
+    }
+    
+    .text-#{$breakpoint}-left {
+      text-align: left !important;
+    }
+    
+    .text-#{$breakpoint}-center {
+      text-align: center !important;
+    }
+    
+    .text-#{$breakpoint}-right {
+      text-align: right !important;
+    }
+    
+    .flex-#{$breakpoint}-row {
+      flex-direction: row !important;
+    }
+    
+    .flex-#{$breakpoint}-column {
+      flex-direction: column !important;
+    }
+    
+    .justify-content-#{$breakpoint}-start {
+      justify-content: flex-start !important;
+    }
+    
+    .justify-content-#{$breakpoint}-center {
+      justify-content: center !important;
+    }
+    
+    .justify-content-#{$breakpoint}-end {
+      justify-content: flex-end !important;
+    }
+    
+    .justify-content-#{$breakpoint}-between {
+      justify-content: space-between !important;
+    }
+    
+    .align-items-#{$breakpoint}-start {
+      align-items: flex-start !important;
+    }
+    
+    .align-items-#{$breakpoint}-center {
+      align-items: center !important;
+    }
+    
+    .align-items-#{$breakpoint}-end {
+      align-items: flex-end !important;
+    }
+  }
+}
+
+// 打印样式
+@media print {
+  .d-print-none {
+    display: none !important;
+  }
+  
+  .d-print-block {
+    display: block !important;
+  }
+  
+  .d-print-inline {
+    display: inline !important;
+  }
+  
+  .d-print-inline-block {
+    display: inline-block !important;
+  }
+}

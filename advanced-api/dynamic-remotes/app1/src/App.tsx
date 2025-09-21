@@ -1,4 +1,5 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { init, loadRemote } from '@module-federation/runtime';
 import { createDefaultPlugins } from '../../runtime-plugins';
 import type { RemoteComponentProps, DynamicImportHook } from '../../types/module-federation';
@@ -88,20 +89,20 @@ init({
   ],
   plugins: createDefaultPlugins({
     retry: {
-      onRetry: (attempt, error, args) => {
+      onRetry: (attempt: any, error: any, args: any) => {
         console.log(`Retrying ${args.id} (attempt ${attempt}):`, error.message);
       },
-      onFailure: (error, args) => {
+      onFailure: (error: any, args: any) => {
         console.error(`Failed to load ${args.id} after all retries:`, error);
       }
     },
     performance: {
-      onSlowLoad: (loadTime, args) => {
+      onSlowLoad: (loadTime: any, args: any) => {
         console.warn(`Slow load detected for ${args.id}: ${loadTime}ms`);
       }
     },
     errorBoundary: {
-      onError: (errorInfo) => {
+      onError: (errorInfo: any) => {
         // In a real app, you might send this to an error reporting service
         console.error('Module Federation Error Report:', errorInfo);
       }
@@ -109,6 +110,7 @@ init({
   })
 });
 
+// useDynamicImport hook - 提供错误处理和重试机制
 function useDynamicImport({ module, scope }: RemoteComponentProps): DynamicImportHook {
   const [component, setComponent] = useState<React.ComponentType | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -128,7 +130,39 @@ function useDynamicImport({ module, scope }: RemoteComponentProps): DynamicImpor
 
     try {
       console.log(`Loading remote module: ${scope}/${module}${isRetry ? ` (retry ${retryCount + 1})` : ''}`);
-      const { default: Component } = await loadRemote<React.ComponentType>(`${scope}/${module}`);
+      const remoteModule = await loadRemote<any>(`${scope}/${module}`);
+      console.log('🔍 Remote module loaded:', remoteModule);
+      console.log('🔍 Remote module keys:', Object.keys(remoteModule || {}));
+      console.log('🔍 Remote module type:', typeof remoteModule);
+      
+      // 处理不同的导出格式
+      let Component: React.ComponentType;
+      if (remoteModule?.default) {
+        console.log('🔍 Using default export:', typeof remoteModule.default);
+        Component = remoteModule.default;
+      } else if (typeof remoteModule === 'function') {
+        console.log('🔍 Using direct function export');
+        Component = remoteModule;
+      } else {
+        console.error('Invalid component format:', remoteModule);
+        throw new Error(`Invalid component format from ${scope}/${module}: got ${typeof remoteModule}`);
+      }
+      
+      if (!Component || typeof Component !== 'function') {
+        console.error('Component is not a function:', Component, typeof Component);
+        throw new Error(`Failed to load valid component ${scope}/${module}: expected function, got ${typeof Component}`);
+      }
+      
+      // 验证组件是否可渲染
+      try {
+        const testElement = React.createElement(Component);
+        const componentName = typeof testElement?.type === 'function' ? testElement.type.name : 'Anonymous';
+        console.log('📝 Component validation successful:', componentName);
+      } catch (validationError) {
+        console.error('Component validation failed:', validationError);
+        throw new Error(`Component validation failed for ${scope}/${module}: ${validationError}`);
+      }
+      
       setComponent(() => Component);
       console.log(`Successfully loaded: ${scope}/${module}`);
     } catch (error) {
@@ -153,26 +187,11 @@ function useDynamicImport({ module, scope }: RemoteComponentProps): DynamicImpor
   return { component, loading, error, retryCount, retry: () => loadComponent(true) };
 }
 
-function App(): JSX.Element {
-  const [{ module, scope }, setSystem] = useState<Partial<RemoteComponentProps>>({});
-
-  const setApp2 = (): void => {
-    setSystem({
-      scope: 'app2',
-      module: 'Widget',
-    });
-  };
-
-  const setApp3 = (): void => {
-    setSystem({
-      scope: 'app3',
-      module: 'Widget',
-    });
-  };
-
+// 通用的远程组件页面
+function RemoteWidgetPage({ scope, displayName }: { scope: string; displayName: string }) {
   const { component: Component, loading, error, retryCount, retry } = useDynamicImport({ 
-    module: module || '', 
-    scope: scope || '' 
+    module: 'Widget', 
+    scope 
   });
 
   const renderRemoteComponent = (): React.ReactNode => {
@@ -185,7 +204,7 @@ function App(): JSX.Element {
           borderRadius: '4px',
           border: '2px dashed #dee2e6' 
         }}>
-          <div>🔄 Loading {scope}/{module}...</div>
+          <div>🔄 Loading {scope}/Widget...</div>
           {retryCount > 0 && (
             <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}>
               Retry attempt {retryCount}
@@ -205,7 +224,7 @@ function App(): JSX.Element {
           color: '#856404'
         }}>
           <h3>⚠️ Failed to Load Remote Component</h3>
-          <p>Could not load {scope}/{module}</p>
+          <p>Could not load {scope}/Widget</p>
           {retryCount > 0 && (
             <p style={{ fontStyle: 'italic', marginBottom: '1em' }}>
               Retry attempts: {retryCount}
@@ -239,6 +258,7 @@ function App(): JSX.Element {
     }
 
     if (Component) {
+      console.log('🚀 Rendering component:', Component.name || 'Anonymous', typeof Component);
       return (
         <ErrorBoundary>
           <Component />
@@ -246,63 +266,138 @@ function App(): JSX.Element {
       );
     }
 
-    return null;
+    return (
+      <div style={{
+        padding: '2em',
+        textAlign: 'center',
+        backgroundColor: '#f8f9fa',
+        borderRadius: '4px',
+        border: '2px dashed #dee2e6'
+      }}>
+        <h3>等待加载 {displayName} 组件</h3>
+        <p>正在准备加载远程组件...</p>
+      </div>
+    );
   };
 
   return (
-    <div
-      style={{
-        fontFamily:
-          '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
-      }}
-    >
-      <h1>Dynamic System Host</h1>
-      <h2>App 1</h2>
-      <p>
-        The Dynamic System will take advantage of Module Federation <strong>remotes</strong> and{' '}
-        <strong>exposes</strong>. It will not load components that have already been loaded.
-      </p>
-      <div style={{ marginBottom: '1em' }}>
-        <button 
-          onClick={setApp2} 
-          disabled={loading}
-          style={{ 
-            marginRight: '1em', 
-            padding: '0.5em 1em',
-            backgroundColor: loading ? '#ccc' : '#007bff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: loading ? 'not-allowed' : 'pointer'
-          }}
-        >
-          Load App 2 Widget
-        </button>
-        <button 
-          onClick={setApp3} 
-          disabled={loading}
-          style={{ 
-            padding: '0.5em 1em',
-            backgroundColor: loading ? '#ccc' : '#007bff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: loading ? 'not-allowed' : 'pointer'
-          }}
-        >
-          Load App 3 Widget
-        </button>
-      </div>
-      <div style={{ marginTop: '2em' }}>
-        <Suspense fallback={
-          <div style={{ padding: '2em', textAlign: 'center' }}>
-            🔄 Initializing component...
-          </div>
-        }>
-          {renderRemoteComponent()}
-        </Suspense>
+    <div style={{ marginTop: '2em' }}>
+      <Suspense fallback={
+        <div style={{ 
+          padding: '2em', 
+          textAlign: 'center', 
+          backgroundColor: '#f8f9fa', 
+          borderRadius: '4px',
+          border: '2px dashed #dee2e6' 
+        }}>
+          <div>🔄 Initializing {displayName} component...</div>
+        </div>
+      }>
+        {renderRemoteComponent()}
+      </Suspense>
+    </div>
+  );
+}
+
+// App2 Widget 组件页面
+function App2WidgetPage() {
+  return <RemoteWidgetPage scope="app2" displayName="App2" />;
+}
+
+// App3 Widget 组件页面
+function App3WidgetPage() {
+  return <RemoteWidgetPage scope="app3" displayName="App3" />;
+}
+
+// 主页组件
+function HomePage() {
+  return (
+    <div style={{ marginTop: '2em' }}>
+      <div style={{
+        padding: '2em',
+        textAlign: 'center',
+        backgroundColor: '#f8f9fa',
+        borderRadius: '4px',
+        border: '2px dashed #dee2e6'
+      }}>
+        <h3>欢迎使用动态路由系统</h3>
+        <p>点击上方的导航链接来懒加载不同的远程组件</p>
+        <p>这个系统使用 Module Federation 和 React Router 实现懒加载</p>
       </div>
     </div>
+  );
+}
+
+function App(): JSX.Element {
+  return (
+    <Router>
+      <div
+        style={{
+          fontFamily:
+            '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+        }}
+      >
+        <h1>Dynamic System Host</h1>
+        <h2>App 1 - 路由懒加载版本</h2>
+        <p>
+          这个动态系统使用 Module Federation <strong>remotes</strong> 和{' '}
+          <strong>exposes</strong>，结合 React Router 实现路由级的懒加载。
+          它不会加载已经加载过的组件。
+        </p>
+        
+        {/* 导航菜单 */}
+        <nav style={{ marginBottom: '1em' }}>
+          <Link 
+            to="/" 
+            style={{ 
+              marginRight: '1em', 
+              padding: '0.5em 1em',
+              backgroundColor: '#28a745',
+              color: 'white',
+              textDecoration: 'none',
+              borderRadius: '4px',
+              display: 'inline-block'
+            }}
+          >
+            首页
+          </Link>
+          <Link 
+            to="/widget/app2" 
+            style={{ 
+              marginRight: '1em', 
+              padding: '0.5em 1em',
+              backgroundColor: '#007bff',
+              color: 'white',
+              textDecoration: 'none',
+              borderRadius: '4px',
+              display: 'inline-block'
+            }}
+          >
+            加载 App 2 Widget
+          </Link>
+          <Link 
+            to="/widget/app3" 
+            style={{ 
+              padding: '0.5em 1em',
+              backgroundColor: '#007bff',
+              color: 'white',
+              textDecoration: 'none',
+              borderRadius: '4px',
+              display: 'inline-block'
+            }}
+          >
+            加载 App 3 Widget
+          </Link>
+        </nav>
+
+        {/* 路由配置 */}
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/widget/app2" element={<App2WidgetPage />} />
+          <Route path="/widget/app3" element={<App3WidgetPage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

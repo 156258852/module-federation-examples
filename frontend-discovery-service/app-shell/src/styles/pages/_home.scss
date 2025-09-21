@@ -1,0 +1,338 @@
+// 首页样式
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.home-page {
+  // 首页容器
+  &__container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: $spacing-xl 0;
+  }
+  
+  // 首页头部
+  &__header {
+    text-align: center;
+    margin-bottom: $spacing-xxl;
+    
+    h1 {
+      font-size: $font-size-xxxl;
+      font-weight: $font-weight-bold;
+      color: $text-primary;
+      margin-bottom: $spacing-md;
+      
+      @include respond-to('md') {
+        font-size: 3rem;
+      }
+    }
+    
+    .subtitle {
+      font-size: $font-size-lg;
+      color: $text-secondary;
+      font-weight: $font-weight-light;
+      margin-bottom: $spacing-lg;
+    }
+    
+    .description {
+      font-size: $font-size-base;
+      color: $text-muted;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: $line-height-loose;
+    }
+  }
+  
+  // 应用卡片网格
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+    margin-bottom: $spacing-xxl;
+    
+    @include respond-to('md') {
+      grid-template-columns: repeat(2, 1fr);
+      gap: $spacing-xl;
+    }
+  }
+  
+  // 应用卡片
+  &__card {
+    @include card;
+    @include hover-lift;
+    padding: $spacing-xl;
+    text-align: center;
+    transition: all $transition-base;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    
+    &:hover {
+      text-decoration: none;
+      color: inherit;
+      border-color: $primary-color;
+      
+      .home-page__card-icon {
+        background-color: $primary-color;
+        color: $text-light;
+      }
+      
+      .home-page__card-title {
+        color: $primary-color;
+      }
+    }
+    
+    &:focus {
+      outline: 2px solid $primary-color;
+      outline-offset: 2px;
+    }
+    
+    &-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: $border-radius-xl;
+      background-color: $bg-secondary;
+      @include center-align;
+      margin: 0 auto $spacing-lg;
+      font-size: 24px;
+      color: $primary-color;
+      transition: all $transition-base;
+    }
+    
+    &-title {
+      font-size: $font-size-xl;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      margin-bottom: $spacing-sm;
+      transition: color $transition-base;
+    }
+    
+    &-description {
+      font-size: $font-size-base;
+      color: $text-secondary;
+      line-height: $line-height-base;
+      margin-bottom: $spacing-md;
+    }
+    
+    &-status {
+      display: inline-flex;
+      align-items: center;
+      gap: $spacing-xs;
+      font-size: $font-size-sm;
+      color: $text-muted;
+      
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: $success-color;
+        
+        &--loading {
+          background-color: $warning-color;
+        }
+        
+        &--error {
+          background-color: $error-color;
+        }
+      }
+    }
+    
+    &-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: $spacing-md;
+      padding-top: $spacing-md;
+      border-top: 1px solid $border-light;
+      font-size: $font-size-sm;
+      color: $text-muted;
+    }
+    
+    &-version {
+      background-color: $bg-tertiary;
+      color: $text-secondary;
+      padding: $spacing-xs $spacing-sm;
+      border-radius: $border-radius-pill;
+      font-weight: $font-weight-medium;
+    }
+  }
+  
+  // 特性展示区域
+  &__features {
+    margin-bottom: $spacing-xxl;
+    
+    &-title {
+      text-align: center;
+      font-size: $font-size-xxl;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      margin-bottom: $spacing-xl;
+    }
+    
+    &-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: $spacing-lg;
+      
+      @include respond-to('md') {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
+    &-item {
+      text-align: center;
+      padding: $spacing-lg;
+      
+      &-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: $border-radius-lg;
+        background-color: rgba($primary-color, 0.1);
+        @include center-align;
+        margin: 0 auto $spacing-md;
+        font-size: 20px;
+        color: $primary-color;
+      }
+      
+      &-title {
+        font-size: $font-size-lg;
+        font-weight: $font-weight-medium;
+        color: $text-primary;
+        margin-bottom: $spacing-sm;
+      }
+      
+      &-description {
+        font-size: $font-size-base;
+        color: $text-secondary;
+        line-height: $line-height-base;
+      }
+    }
+  }
+  
+  // 页面底部
+  &__footer {
+    text-align: center;
+    padding-top: $spacing-xl;
+    border-top: 1px solid $border-light;
+    
+    &-links {
+      display: flex;
+      justify-content: center;
+      gap: $spacing-lg;
+      margin-bottom: $spacing-md;
+      
+      a {
+        font-size: $font-size-sm;
+        color: $text-muted;
+        text-decoration: none;
+        
+        &:hover {
+          color: $primary-color;
+        }
+      }
+    }
+    
+    &-copyright {
+      font-size: $font-size-sm;
+      color: $text-muted;
+    }
+  }
+}
+
+// 欢迎动画
+.welcome-animation {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: welcome-fade-in 0.6s ease-out forwards;
+  
+  &--delayed {
+    animation-delay: 0.2s;
+  }
+  
+  &--more-delayed {
+    animation-delay: 0.4s;
+  }
+}
+
+@keyframes welcome-fade-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// 卡片动画
+.card-animation {
+  &:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  
+  &:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  
+  &:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  
+  &:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+}
+
+// 响应式调整
+@media (max-width: #{$breakpoint-md - 1px}) {
+  .home-page {
+    &__container {
+      padding: $spacing-lg 0;
+    }
+    
+    &__header {
+      margin-bottom: $spacing-xl;
+      
+      h1 {
+        font-size: $font-size-xxl;
+      }
+      
+      .subtitle {
+        font-size: $font-size-base;
+      }
+    }
+    
+    &__card {
+      padding: $spacing-lg;
+      
+      &-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+      }
+      
+      &-title {
+        font-size: $font-size-lg;
+      }
+    }
+    
+    &__features {
+      &-title {
+        font-size: $font-size-xl;
+      }
+      
+      &-item {
+        padding: $spacing-md;
+        
+        &-icon {
+          width: 40px;
+          height: 40px;
+          font-size: 18px;
+        }
+      }
+    }
+    
+    &__footer {
+      &-links {
+        flex-direction: column;
+        gap: $spacing-sm;
+      }
+    }
+  }
+}

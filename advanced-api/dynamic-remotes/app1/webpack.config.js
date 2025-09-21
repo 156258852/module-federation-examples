@@ -9,7 +9,7 @@ module.exports = {
   target: 'web',
   devServer: createDevServerConfig(3001),
   output: {
-    publicPath: 'auto',
+    publicPath: '/',
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
@@ -43,7 +43,7 @@ module.exports = {
       },
       manifest: {
         fileName: 'mf-manifest.json',
-        getPublicPath: () => 'auto',
+        getPublicPath: () => '/',
       },
     }),
     new HtmlWebpackPlugin({

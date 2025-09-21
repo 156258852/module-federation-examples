@@ -1,0 +1,280 @@
+// 微应用容器组件样式
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.micro-app {
+  // 微应用容器
+  &__container {
+    position: relative;
+    min-height: 400px;
+    background-color: $bg-primary;
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    
+    // 为微应用提供隔离的样式环境
+    isolation: isolate;
+    
+    // 确保微应用内容不会溢出
+    contain: layout style;
+  }
+  
+  // 微应用包装器
+  &__wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    
+    // 为微应用内容提供标准化环境
+    * {
+      box-sizing: border-box;
+    }
+  }
+  
+  // 微应用加载状态
+  &__loading {
+    @include center-align;
+    min-height: 400px;
+    flex-direction: column;
+    gap: $spacing-md;
+    color: $text-secondary;
+    
+    .spinner {
+      @include loading-spinner(32px, $primary-color);
+    }
+    
+    .loading-text {
+      font-size: $font-size-base;
+      font-weight: $font-weight-medium;
+    }
+    
+    .loading-subtext {
+      font-size: $font-size-sm;
+      color: $text-muted;
+    }
+  }
+  
+  // 微应用错误状态
+  &__error {
+    @include center-align;
+    min-height: 400px;
+    flex-direction: column;
+    gap: $spacing-lg;
+    padding: $spacing-xl;
+    text-align: center;
+    
+    &-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: rgba($error-color, 0.1);
+      @include center-align;
+      color: $error-color;
+      font-size: 24px;
+    }
+    
+    &-title {
+      font-size: $font-size-lg;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      margin: 0;
+    }
+    
+    &-message {
+      font-size: $font-size-base;
+      color: $text-secondary;
+      margin: 0;
+      max-width: 400px;
+    }
+    
+    &-actions {
+      display: flex;
+      gap: $spacing-md;
+      margin-top: $spacing-md;
+    }
+    
+    &-button {
+      @include button-base;
+      @include button-variant($primary-color);
+      font-size: $font-size-sm;
+      padding: $spacing-xs $spacing-md;
+    }
+    
+    &-button--secondary {
+      @include button-variant($bg-secondary, $border-color, $text-primary);
+    }
+  }
+  
+  // 微应用空状态
+  &__empty {
+    @include center-align;
+    min-height: 300px;
+    flex-direction: column;
+    gap: $spacing-md;
+    padding: $spacing-xl;
+    text-align: center;
+    color: $text-muted;
+    
+    &-icon {
+      width: 64px;
+      height: 64px;
+      opacity: 0.5;
+    }
+    
+    &-title {
+      font-size: $font-size-lg;
+      font-weight: $font-weight-medium;
+      color: $text-secondary;
+      margin: 0;
+    }
+    
+    &-description {
+      font-size: $font-size-base;
+      margin: 0;
+      max-width: 300px;
+    }
+  }
+  
+  // 微应用内容区域
+  &__content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    
+    // 确保微应用样式不会泄露到父应用
+    & > * {
+      max-width: 100%;
+    }
+    
+    // 为微应用提供基础的滚动容器
+    &--scrollable {
+      overflow-y: auto;
+      max-height: calc(100vh - #{$navbar-height} - #{$spacing-xl * 2});
+    }
+  }
+  
+  // 微应用标题栏（可选）
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-md $spacing-lg;
+    background-color: $bg-secondary;
+    border-bottom: 1px solid $border-light;
+    
+    &-title {
+      font-size: $font-size-base;
+      font-weight: $font-weight-medium;
+      color: $text-primary;
+      margin: 0;
+    }
+    
+    &-actions {
+      display: flex;
+      gap: $spacing-sm;
+    }
+    
+    &-button {
+      @include button-base;
+      font-size: $font-size-xs;
+      padding: $spacing-xs $spacing-sm;
+      background: none;
+      border: 1px solid $border-color;
+      color: $text-secondary;
+      
+      &:hover {
+        background-color: $bg-primary;
+        color: $text-primary;
+      }
+    }
+  }
+  
+  // 微应用加载进度条
+  &__progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: $bg-secondary;
+    overflow: hidden;
+    z-index: $z-index-fixed;
+    
+    &-bar {
+      height: 100%;
+      background-color: $primary-color;
+      transform: translateX(-100%);
+      animation: progress-loading 2s ease-in-out infinite;
+    }
+    
+    &--complete {
+      opacity: 0;
+      transition: opacity $transition-fast;
+    }
+  }
+}
+
+// 进度条动画
+@keyframes progress-loading {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+// 微应用容器变体
+.micro-app {
+  &--bordered {
+    .micro-app__container {
+      border: 1px solid $border-color;
+    }
+  }
+  
+  &--elevated {
+    .micro-app__container {
+      @include card;
+      box-shadow: $shadow-base;
+    }
+  }
+  
+  &--fullscreen {
+    .micro-app__container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: $z-index-modal;
+      border-radius: 0;
+      min-height: 100vh;
+    }
+  }
+}
+
+// 响应式调整
+@media (max-width: #{$breakpoint-md - 1px}) {
+  .micro-app {
+    &__container {
+      border-radius: $border-radius-base;
+    }
+    
+    &__loading,
+    &__error,
+    &__empty {
+      min-height: 300px;
+      padding: $spacing-lg;
+    }
+    
+    &__header {
+      padding: $spacing-sm $spacing-md;
+      
+      &-title {
+        font-size: $font-size-sm;
+      }
+    }
+  }
+}

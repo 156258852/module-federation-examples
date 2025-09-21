@@ -29,7 +29,7 @@ By default the Webpack style-loader will inject CSS in `<style>` tags into the `
 
 **An additional wrapping `<body>` tag is always intentionally inserted into each Shadow DOM container. This makes it possible to use global reboot CSS rules inside the remote app which usually target the `<body>` tag and its contents. This should enable the user, for example, to have two different versions of Bootstrap one in the host and one in the remote.**
 
-**Testing such a setup with tools like Playwright is possible with some additional settings and tweaks. Make sure to consult with the testing tool's documentation for handling Shadow DOM interactions.**
+**Testing such a setup with tools like Cypress is possible with some additional settings and tweaks. Make sure to consult with the testing tool's documentation.**
 
 # Running Demo
 
@@ -40,13 +40,10 @@ Run `pnpm run start`. This will build and serve both `app1` and `app2` on ports 
 
 <img src="https://ssl.google-analytics.com/collect?v=1&t=event&ec=email&ea=open&t=event&tid=UA-120967034-1&z=1589682154&cid=ae045149-9d17-0367-bbb0-11c41d92b411&dt=ModuleFederationExamples&dp=/email/BasicRemoteHost">
 
-# Running Playwright E2E Tests
+# Running Cypress E2E Tests
 
-Run `pnpm test:e2e` from this workspace to execute the Playwright end-to-end suite against the development servers configured in [`playwright.config.ts`](./playwright.config.ts).
+To run tests in interactive mode, run `npm run cypress:debug` from the root directory of the project. It will open Cypress Test Runner and allow to run tests in interactive mode. [More info about "How to run tests"](../../cypress-e2e/README.md#how-to-run-tests)
 
-For local debugging you can use the helper scripts:
+To build app and run test in headless mode, run `yarn e2e:ci`. It will build app and run tests for this workspace in headless mode. If tets failed cypress will create `cypress` directory in sample root folder with screenshots and videos.
 
-- `pnpm test:e2e:ui` to explore the tests in Playwright UI mode.
-- `pnpm test:e2e:debug` to launch the suite with Playwright's debug tools enabled.
-
-In CI environments run `pnpm e2e:ci` to install the required browsers and execute the tests in headless mode. Use `pnpm legacy:e2e:ci` (or set `LEGACY_START=true`) to run the same checks against the legacy Webpack builds.
+["Best Practices, Rules amd more interesting information here](../../cypress-e2e/README.md)
