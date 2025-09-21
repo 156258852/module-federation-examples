@@ -2,9 +2,10 @@
  * 创建动态远程模块加载器
  * @param {string} scope - 远程模块的作用域名称
  * @param {string} remoteUrl - 远程入口文件的URL，默认根据scope推断
+ * @param {number} delay - 延迟加载时间（毫秒），默认为0
  * @returns {string} 用于 ModuleFederationPlugin remotes 配置的 Promise 字符串
  */
-const remoteLoader = (scope, remoteUrl) => {
+const remoteLoader = (scope, remoteUrl, delay = 2000) => {
   // 如果没有提供URL，根据scope推断默认URL
   if (!remoteUrl) {
     const portMap = {
@@ -19,28 +20,23 @@ const remoteLoader = (scope, remoteUrl) => {
   return `promise new Promise((resolve, reject) => {
       const scope = '${scope}'
       const remoteUrlWithVersion = '${remoteUrl}'
+      const delayMs = ${delay}
       
       // 检查是否已经加载过该远程模块
       const existingScript = document.querySelector('script[data-scope="' + scope + '"]');
-      // 如果已经加载过该远程模块，并且判断data-scop 是否为scop， 判断init和 get方法，如果有， 则直接返回代理对象 ，否则继续加载
-      if (existingScript && window[scope] && existingScript.dataset.scop === scop && typeof window[scope].get === 'function' && typeof window[scope].init === 'function') {
-        console.log('Remote container already loaded:', scope);
-        const proxy = {
-          get: (request) => window[scope].get(request),
-          init: (...arg) => {
-            try {
-              return window[scope].init(...arg)
-            } catch(e) {
-              console.log('remote container already initialized:', scope)
-              return true;
-            }
-          }
+      if (existingScript && window[scope]) {
+        if (delayMs > 0) {
+          console.log('Delaying remote module resolution for testing:', scope, delayMs + 'ms');
+          setTimeout(() => resolve(), delayMs);
+        } else {
+          resolve();
         }
-        resolve(proxy);
         return;
       }
       
-      const script = document.createElement('script')
+      // 延迟加载函数
+      const loadRemoteScript = () => {
+        const script = document.createElement('script')
       script.src = remoteUrlWithVersion
       script.type = 'text/javascript'
       script.async = true
@@ -108,8 +104,17 @@ const remoteLoader = (scope, remoteUrl) => {
         reject(new Error('Failed to load remote script: ' + scope + ' from ' + remoteUrlWithVersion));
       }
       
-      // inject this script with the src set to the versioned remoteEntry.js
-      document.head.appendChild(script);
+        // inject this script with the src set to the versioned remoteEntry.js
+        document.head.appendChild(script);
+      };
+      
+      // 根据延迟时间决定是否延迟加载
+      if (delayMs > 0) {
+        console.log('Delaying remote script loading for testing:', scope, delayMs + 'ms');
+        setTimeout(loadRemoteScript, delayMs);
+      } else {
+        loadRemoteScript();
+      }
     })`;
 };
 
@@ -117,7 +122,7 @@ const remoteLoader = (scope, remoteUrl) => {
 
 
 
-  
+
 
 export {
   remoteLoader,
